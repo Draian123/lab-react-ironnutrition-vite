@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.clicked{
+  display: block;
+}
+
+.notClicked{
+  display: none;
+}

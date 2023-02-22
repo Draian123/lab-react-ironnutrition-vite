@@ -17,6 +17,7 @@ function App() {
   const [calories, setCalories] = useState(0)
   const [servings, setServings] = useState(0)
   const [search, setSearch] = useState("")
+  const [formShow, setFormShow] = useState(true)
 
   function handleCreateFood(event){
     event.preventDefault()
@@ -37,10 +38,16 @@ function App() {
   }  
 
 
+  function handleformClass(state){
+      setFormShow(!state)
+  }
+
+  let formClass = formShow ? 'clicked' : 'notClicked';
+
   return (
     <div className="App">
       {/* Display Add Food component here */}
-      <form>
+      <form className={formClass}>
       <Divider>Add Food Entry</Divider>
 
       <label>Name</label>
@@ -61,7 +68,7 @@ function App() {
       <button type="submit" onClick={handleCreateFood}>Create</button>
     </form>
 
-      <Button> Hide Form / Add New Food </Button>
+      <Button onClick={()=>handleformClass(formShow)}> Hide Form / Add New Food </Button>
 
       {/* Display Search component here */}
       <Divider>Search</Divider>
@@ -73,14 +80,17 @@ function App() {
 
       <Row style={{ width: '100%', justifyContent: 'center' }}>
         {/* Render the list of Food Box components here */}
-        {foodsState
+        {foodsState.length> 0?
+          foodsState
           .filter(food => {
           if (search === "") return foodsState
           return food.name.toLowerCase().includes(search.toLowerCase())
           })
         .map(food =>{
           return <FoodBox food={food} key={food.id} handleDelete={handleDelete}/>
-        })}
+        }) : <h1>Oops! There is no more content to show.</h1>
+        
+        }
       </Row>
     </div>
   )
